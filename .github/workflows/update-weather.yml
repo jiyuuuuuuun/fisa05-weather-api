@@ -1,0 +1,39 @@
+schedule:
+   - cron: "/5 * * * *"
+  # push:
+  #   branches: [ "main" ]
+  # pull_request:
+  #   branches: [ "main" ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs: #하려는 것을 순서대로 작성(여러개 작성가능
+  # This workflow contains a single job called "build"
+  uodaate-readme:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest #어느 환경애서 작성할지
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+          - uses: actions/checkout@v4
+    - name: Setup Python
+      uses: actions/setup-python@v5.6.0
+      with:
+        python-version: '3.11'
+        
+    - name: pip 설치
+      run: |
+        pip install python-dotenv requests
+        
+    - name: python 파일 실행
+      run: |
+        python update_weather.py
+        
+    - name: 변경내용 push
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add README.md
+        git commit -m "업데이트 완료" || echo "No change"
+        git push
+   
