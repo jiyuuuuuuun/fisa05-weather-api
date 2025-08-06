@@ -28,6 +28,8 @@ jobs: #하려는 것을 순서대로 작성(여러개 작성가능
     - name: python 파일 실행
       run: |
         python update_weather.py
+      env:
+      - OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
         
     - name: 변경내용 push
       run: |
